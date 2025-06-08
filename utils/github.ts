@@ -1,3 +1,5 @@
+import type { Project } from './types';
+
 export async function fetchProjectsFromGitHub(username: string): Promise<Project[]> {
   try {
     const res = await fetch(`https://api.github.com/users/${username}/repos`);
