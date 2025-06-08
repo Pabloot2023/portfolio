@@ -1,15 +1,4 @@
-// utils/github.ts
-
-export interface ProjectConfig {
-  name: string;
-  description?: string;
-  image?: string;
-  demoUrl?: string;
-  repo?: string;
-  [key: string]: any; // Para cualquier otra propiedad extra
-}
-
-export async function fetchProjectsFromGitHub(username: string): Promise<ProjectConfig[]> {
+export async function fetchProjectsFromGitHub(username: string): Promise<Project[]> {
   try {
     const res = await fetch(`https://api.github.com/users/${username}/repos`);
     if (!res.ok) {
@@ -24,34 +13,45 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
           const configRes = await fetch(
             `https://raw.githubusercontent.com/${username}/${repo.name}/main/project.config.json`
           );
+
           if (!configRes.ok) {
-            // Si no hay config, usar info básica del repo
-            return {
-              name: repo.name,
-              description: repo.description,
+            // No hay config, usamos info básica con valores por defecto
+            const project: Project = {
+              title: repo.name,
+              description: repo.description || '',
+              tech: [], // vacío si no hay info
+              demo: '', // sin demo
               repo: repo.html_url,
-              // Puedes agregar otros campos si quieres
             };
+            return project;
           }
 
           const config = await configRes.json();
-          return {
-            ...config,
+
+          // Mapear config a Project
+          const project: Project = {
+            title: config.title || repo.name,
+            description: config.description || '',
+            tech: Array.isArray(config.tech) ? config.tech : [],
+            demo: config.demo || '',
             repo: repo.html_url,
           };
+          return project;
         } catch (error) {
-          // Si falla al obtener config, usar info básica
-          return {
-            name: repo.name,
-            description: repo.description,
+          // Error al obtener config, usar datos básicos
+          const project: Project = {
+            title: repo.name,
+            description: repo.description || '',
+            tech: [],
+            demo: '',
             repo: repo.html_url,
           };
+          return project;
         }
       })
     );
 
-    // Filtrar nulos o proyectos inválidos (por si algo raro)
-    return projects.filter(Boolean);
+    return projects.filter((p): p is Project => p !== null);
   } catch (error) {
     console.error('Error in fetchProjectsFromGitHub:', error);
     return [];

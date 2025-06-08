@@ -1,10 +1,22 @@
 import ProjectCard from '@/components/ProjectCard';
-import { fetchProjectsFromGitHub, ProjectConfig } from '@/utils/github';
+import { fetchProjectsFromGitHub } from '@/utils/github';
+import type { Project } from '@/utils/types';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 interface HomeProps {
-  projects: ProjectConfig[];
+  projects: Project[];
+}
+
+// Validación sencilla para asegurar que el objeto cumple el tipo Project
+function isProject(obj: any): obj is Project {
+  return (
+    obj &&
+    typeof obj.title === 'string' &&
+    typeof obj.repo === 'string' &&
+    Array.isArray(obj.tech) &&
+    obj.tech.every((t: any) => typeof t === 'string')
+  );
 }
 
 export default function Home({ projects }: HomeProps) {
@@ -29,7 +41,11 @@ export default function Home({ projects }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const projects = await fetchProjectsFromGitHub('Pabloot2023');
+  const rawProjects = await fetchProjectsFromGitHub('Pabloot2023');
+
+  // Filtra sólo los proyectos que cumplen la validación
+  const projects: Project[] = rawProjects.filter(isProject);
+
   return {
     props: { projects },
     revalidate: 3600, // Rebuild cada hora
