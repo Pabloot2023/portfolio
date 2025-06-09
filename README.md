@@ -1,6 +1,6 @@
 # Portafolio de Andrés
 
-Este proyecto fue creado con ayuda de ChatGPT como parte de un sistema centralizado para mostrar los proyectos desplegados por el usuario en GitHub.
+rollback a https://github.com/Pabloot2023/portfolio-andres/commit/dbd577377d15dc2578179aee85faf2f4070ae77f
 
 Muestra automáticamente los repositorios que contienen un archivo `project.config.json` con información del proyecto.
 
