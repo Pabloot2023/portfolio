@@ -44,7 +44,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             rel="noopener noreferrer"
             className="btn"
           >
-            Ver Demo
+            <span>Ver Demo</span>
+            <span className="btn-emoji" aria-label="monitor emoji" role="img">
+              🖥️
+            </span>
           </a>
         )}
       </div>
