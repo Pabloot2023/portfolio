@@ -1,4 +1,4 @@
-import ProjectCard from '@/components/ProjectCard';
+import ProjectsList from '@/components/ProjectsList';
 import { fetchProjectsFromGitHub } from '@/utils/github';
 import type { Project } from '@/utils/types';
 import { GetStaticProps } from 'next';
@@ -25,16 +25,14 @@ export default function Home({ projects }: HomeProps) {
       <Head>
         <title>Portafolio de Andrés</title>
       </Head>
-      <main className="min-h-screen bg-gray-100 p-8">
-        <h1 className="text-4xl font-bold mb-6 text-center">Mis Proyectos</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.length === 0 && (
-            <p className="text-center col-span-full">No se encontraron proyectos.</p>
-          )}
-          {projects.map((project) => (
-            <ProjectCard key={project.repo} project={project} />
-          ))}
-        </div>
+      <main className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white py-8 px-4">
+        <h1 className="main-title">Mis Proyectos</h1>
+
+        {projects.length === 0 ? (
+          <p className="text-center text-lg">No se encontraron proyectos.</p>
+        ) : (
+          <ProjectsList projects={projects} />
+        )}
       </main>
     </>
   );
