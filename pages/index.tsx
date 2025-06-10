@@ -26,7 +26,7 @@ export default function Home({ projects }: HomeProps) {
         <title>Portafolio de Andrés</title>
       </Head>
       <main className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white py-8 px-4">
-        <h1 className="main-title">Mis Proyectos</h1>
+        <h1 className="main-title">PORTFOLIO</h1>
 
         {projects.length === 0 ? (
           <p className="text-center text-lg">No se encontraron proyectos.</p>

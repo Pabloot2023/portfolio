@@ -1,3 +1,5 @@
+import { FaGithub } from 'react-icons/fa';
+
 interface Project {
   title: string;
   description?: string;
@@ -35,8 +37,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           rel="noopener noreferrer"
           className="btn"
         >
-          Ver Repo
+          <span>Ver Repo</span>
+          <FaGithub style={{ marginLeft: '0.4rem' }} />
         </a>
+
         {project.demo && (
           <a
             href={project.demo}
@@ -54,3 +58,4 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     </div>
   );
 }
+
