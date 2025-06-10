@@ -30,7 +30,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
       <div className="project-links">
         <a
-          href={`https://github.com/Pabloot2023/${project.repo}`}
+          href={project.repo}
           target="_blank"
           rel="noopener noreferrer"
           className="btn"
