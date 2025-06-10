@@ -1,5 +1,4 @@
 import type { Project } from './types';
-
 export async function fetchProjectsFromGitHub(username: string): Promise<Project[]> {
   try {
     const res = await fetch(`https://api.github.com/users/${username}/repos`);
@@ -25,6 +24,12 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
               demo: '', // sin demo
               repo: repo.html_url,
             };
+
+            // Forzar demo para portfolio-andres si demo está vacío
+            if (project.title === 'portfolio-andres' && !project.demo) {
+              project.demo = 'https://portfolio-andres-ecru.vercel.app/';
+            }
+
             return project;
           }
 
@@ -38,6 +43,12 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
             demo: config.demo || '',
             repo: repo.html_url,
           };
+
+          // Forzar demo para portfolio-andres si demo está vacío
+          if (project.title === 'portfolio-andres' && !project.demo) {
+            project.demo = 'https://portfolio-andres-ecru.vercel.app/';
+          }
+
           return project;
         } catch (error) {
           // Error al obtener config, usar datos básicos
@@ -48,6 +59,12 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
             demo: '',
             repo: repo.html_url,
           };
+
+          // Forzar demo para portfolio-andres si demo está vacío
+          if (project.title === 'portfolio-andres' && !project.demo) {
+            project.demo = 'https://portfolio-andres-ecru.vercel.app/';
+          }
+
           return project;
         }
       })
