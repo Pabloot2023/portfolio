@@ -8,4 +8,4 @@ Desarrollado en Next.js + TailwindCSS, y desplegado en Vercel.
 
 Este proyecto fue renombrado correctamente.
 
-se modifica project.config.json
+se modifica project.config.json v2
