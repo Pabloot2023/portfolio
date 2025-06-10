@@ -1,0 +1,6 @@
+{
+  "title": "Portfolio",
+  "description": "Portafolio automatizado con repositorios seleccionados.",
+  "tech": ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+  "demo": "https://portfolio-andres-ecru.vercel.app/"
+}

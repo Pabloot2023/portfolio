@@ -5,3 +5,5 @@ rollback a https://github.com/Pabloot2023/portfolio-andres/commit/dbd577377d15dc
 Muestra automáticamente los repositorios que contienen un archivo `project.config.json` con información del proyecto.
 
 Desarrollado en Next.js + TailwindCSS, y desplegado en Vercel.
+
+Este proyecto fue renombrado correctamente.
