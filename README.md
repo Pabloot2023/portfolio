@@ -7,3 +7,5 @@ Muestra automáticamente los repositorios que contienen un archivo `project.conf
 Desarrollado en Next.js + TailwindCSS, y desplegado en Vercel.
 
 Este proyecto fue renombrado correctamente.
+
+se modifica project.config.json
