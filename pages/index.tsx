@@ -21,13 +21,28 @@ export default function Home({ projects = [] }: HomeProps) {
   }, []);
 
   useEffect(() => {
-    const searchTerm = search.toLowerCase();
+    const searchTerms = search.toLowerCase().split(' ').filter(term => term.length > 0);
     const results = projects.filter((project) => {
-      const inTitle = project.title.toLowerCase().includes(searchTerm);
-      const inTech = project.tech.some((tech) =>
-        tech.toLowerCase().includes(searchTerm)
-      );
-      return inTitle || inTech;
+      // Si no hay términos de búsqueda, mostrar todos los proyectos
+      if (searchTerms.length === 0) return true;
+      
+      // Convertir todas las tecnologías del proyecto a minúsculas para comparación
+      const projectTechs = project.tech.map(tech => tech.toLowerCase().trim());
+      
+      // Verificar si AL MENOS UNO de los términos de búsqueda está presente en el proyecto
+      return searchTerms.some(searchTerm => {
+        // Buscar en el título
+        const inTitle = project.title.toLowerCase().includes(searchTerm);
+        
+        // Buscar en las tecnologías
+        const inTech = projectTechs.some(tech => 
+          tech === searchTerm || // Coincidencia exacta
+          tech.includes(searchTerm) || // La tecnología incluye el término
+          searchTerm.includes(tech) // El término incluye la tecnología
+        );
+        
+        return inTitle || inTech;
+      });
     });
     setFilteredProjects(results);
   }, [search, projects]);
