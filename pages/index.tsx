@@ -1,6 +1,7 @@
 'use client';
 
 import ProjectsList from '@/components/ProjectsList';
+import ThemeToggle from '@/components/ThemeToggle';
 import { fetchProjectsFromGitHub } from '@/utils/github';
 import type { Project } from '@/utils/types';
 import Head from 'next/head';
@@ -37,10 +38,15 @@ export default function Home({ projects = [] }: HomeProps) {
         <title>Portafolio de Andrés</title>
       </Head>
 
-      <main className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white py-8 px-4">
+      {/* Botón de cambio de tema */}
+      <div className="theme-toggle-container">
+        <ThemeToggle />
+      </div>
+
+      <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] py-8 px-4 transition-colors duration-200">
         <h1 className="main-title">PORTFOLIO</h1>
 
-      <div className="search-container">
+        <div className="search-container">
           <input
             type="text"
             placeholder="Buscar proyectos por título o tecnología"
