@@ -35,6 +35,13 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
+      - name: Open test report on failure
+        if: failure()
+        run: |
+          npx playwright show-report playwright-report/
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: 0
+
   deploy:
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
