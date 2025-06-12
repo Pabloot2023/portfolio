@@ -38,7 +38,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           className="btn"
         >
           <span>Ver Repo</span>
-          <FaGithub style={{ marginLeft: '0.4rem' }} />
+          <span className="btn-emoji" aria-label="github icon">
+            <FaGithub />
+          </span>
         </a>
 
         {project.demo && (
