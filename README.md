@@ -31,3 +31,5 @@ Este proyecto utiliza GitHub Actions para implementar un pipeline de CI/CD que:
    - Requiere que todos los tests pasen
    - Despliega automáticamente a Vercel
    - Mantiene la calidad del código en producción
+
+   cambio neutro para test visual
