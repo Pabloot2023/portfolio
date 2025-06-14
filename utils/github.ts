@@ -1,4 +1,5 @@
 import type { Project } from './types';
+
 export async function fetchProjectsFromGitHub(username: string): Promise<Project[]> {
   try {
     const res = await fetch(`https://api.github.com/users/${username}/repos`);
@@ -6,6 +7,7 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
       console.error('Error fetching repos from GitHub:', res.statusText);
       return [];
     }
+
     const repos = await res.json();
 
     const projects = await Promise.all(
@@ -20,8 +22,8 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
             const project: Project = {
               title: repo.name,
               description: repo.description || '',
-              tech: [], // vacío si no hay info
-              demo: '', // sin demo
+              tech: [],
+              demo: '',
               repo: repo.html_url,
             };
 
@@ -30,12 +32,16 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
               project.demo = 'https://portfolio-andres-ecru.vercel.app/';
             }
 
+            // Forzar demo para cocinero si demo está vacío
+            if (project.title === 'cocinero' && !project.demo) {
+              project.demo = 'https://cocinero.vercel.app/';
+            }
+
             return project;
           }
 
           const config = await configRes.json();
 
-          // Mapear config a Project
           const project: Project = {
             title: config.title || repo.name,
             description: config.description || '',
@@ -47,6 +53,11 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
           // Forzar demo para portfolio-andres si demo está vacío
           if (project.title === 'portfolio-andres' && !project.demo) {
             project.demo = 'https://portfolio-andres-ecru.vercel.app/';
+          }
+
+          // Forzar demo para cocinero si demo está vacío
+          if (project.title === 'cocinero' && !project.demo) {
+            project.demo = 'https://cocinero.vercel.app/';
           }
 
           return project;
@@ -63,6 +74,11 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
           // Forzar demo para portfolio-andres si demo está vacío
           if (project.title === 'portfolio-andres' && !project.demo) {
             project.demo = 'https://portfolio-andres-ecru.vercel.app/';
+          }
+
+          // Forzar demo para cocinero si demo está vacío
+          if (project.title === 'cocinero' && !project.demo) {
+            project.demo = 'https://cocinero.vercel.app/';
           }
 
           return project;

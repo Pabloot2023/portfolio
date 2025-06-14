@@ -12,11 +12,15 @@ interface ProjectCardProps {
   project: Project;
 }
 
+// Función auxiliar para capitalizar la primera letra
+const capitalize = (text: string) =>
+  text.charAt(0).toUpperCase() + text.slice(1);
+
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <div className="project-card">
       <div>
-        <h3 className="project-title">{project.title}</h3>
+        <h3 className="project-title">{capitalize(project.title)}</h3>
         <p className="project-description">
           {project.description || 'Sin descripción'}
         </p>
@@ -60,4 +64,3 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     </div>
   );
 }
-
