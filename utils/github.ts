@@ -1,6 +1,24 @@
 import type { Project } from './types';
 
 export async function fetchProjectsFromGitHub(username: string): Promise<Project[]> {
+  // Función para intentar traer el config desde main o master
+  async function fetchConfig(repoName: string): Promise<any | null> {
+    const branches = ['main', 'master'];
+    for (const branch of branches) {
+      try {
+        const res = await fetch(
+          `https://raw.githubusercontent.com/${username}/${repoName}/${branch}/project.config.json`
+        );
+        if (res.ok) {
+          return await res.json();
+        }
+      } catch (e) {
+        // ignora error y prueba siguiente rama
+      }
+    }
+    return null; // no encontró config en ninguna rama
+  }
+
   try {
     const res = await fetch(`https://api.github.com/users/${username}/repos`);
     if (!res.ok) {
@@ -13,12 +31,10 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
     const projects = await Promise.all(
       repos.map(async (repo: any) => {
         try {
-          const configRes = await fetch(
-            `https://raw.githubusercontent.com/${username}/${repo.name}/main/project.config.json`
-          );
+          const config = await fetchConfig(repo.name);
 
-          if (!configRes.ok) {
-            // No hay config, usamos info básica con valores por defecto
+          if (!config) {
+            // No hay config, usamos info básica
             const project: Project = {
               title: repo.name,
               description: repo.description || '',
@@ -27,20 +43,16 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
               repo: repo.html_url,
             };
 
-            // Forzar demo para portfolio-andres si demo está vacío
-            if (project.title === 'portfolio-andres' && !project.demo) {
+            // Forzar demo para portfolio-andres y cocinero si demo está vacío
+            if (project.title.toLowerCase() === 'portfolio-andres' && !project.demo) {
               project.demo = 'https://portfolio-andres-ecru.vercel.app/';
             }
-
-            // Forzar demo para cocinero si demo está vacío
-            if (project.title === 'cocinero' && !project.demo) {
+            if (project.title.toLowerCase() === 'cocinero' && !project.demo) {
               project.demo = 'https://cocinero.vercel.app/';
             }
 
             return project;
           }
-
-          const config = await configRes.json();
 
           const project: Project = {
             title: config.title || repo.name,
@@ -50,13 +62,11 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
             repo: repo.html_url,
           };
 
-          // Forzar demo para portfolio-andres si demo está vacío
-          if (project.title === 'portfolio-andres' && !project.demo) {
+          // Forzar demo para portfolio-andres y cocinero si demo está vacío
+          if (project.title.toLowerCase() === 'portfolio-andres' && !project.demo) {
             project.demo = 'https://portfolio-andres-ecru.vercel.app/';
           }
-
-          // Forzar demo para cocinero si demo está vacío
-          if (project.title === 'cocinero' && !project.demo) {
+          if (project.title.toLowerCase() === 'cocinero' && !project.demo) {
             project.demo = 'https://cocinero.vercel.app/';
           }
 
@@ -71,13 +81,11 @@ export async function fetchProjectsFromGitHub(username: string): Promise<Project
             repo: repo.html_url,
           };
 
-          // Forzar demo para portfolio-andres si demo está vacío
-          if (project.title === 'portfolio-andres' && !project.demo) {
+          // Forzar demo para portfolio-andres y cocinero si demo está vacío
+          if (project.title.toLowerCase() === 'portfolio-andres' && !project.demo) {
             project.demo = 'https://portfolio-andres-ecru.vercel.app/';
           }
-
-          // Forzar demo para cocinero si demo está vacío
-          if (project.title === 'cocinero' && !project.demo) {
+          if (project.title.toLowerCase() === 'cocinero' && !project.demo) {
             project.demo = 'https://cocinero.vercel.app/';
           }
 
